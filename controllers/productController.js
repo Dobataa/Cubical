@@ -7,7 +7,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/create', (req, res) => {
-    res.render('home', { title: 'Create'});
+    res.render('create', { title: 'Create'});
+});
+
+router.get('/details/:productId', (req, res) => {
+    res.render('details', {title: 'Details'})
 });
 
 module.exports = router;
