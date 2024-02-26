@@ -12,9 +12,11 @@ function create(data) {
         uniqid(),
         data.name,
         data.description,
-        data.imagrUrl,
+        data.imageUrl,
         data.difficultyLevel
     );
+
+    productsData.push(cube);
 
     fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) => {
         if (err) {
@@ -25,5 +27,6 @@ function create(data) {
 }
 
 module.exports = {
-    create
+    create,
+    getAll
 };
