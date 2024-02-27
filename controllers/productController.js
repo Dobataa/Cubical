@@ -1,28 +1,28 @@
 const { Router } = require('express');
-const productsService = require('../services/productService');
+const productService = require('../services/productService');
 
 const router = Router();
 
 router.get('/', (req, res) => {
-    let products = productsService.getAll(); 
+    let products = productService.getAll();
 
     res.render('home', { title: 'Browse', products });
 });
 
 router.get('/create', (req, res) => {
-    res.render('create', { title: 'Create'});
+    res.render('create', { title: 'Create' });
 });
 
 router.post('/create', (req, res) => {
-    productsService.create(req.body);
-
-    res.redirect('/products');
+    productService.create(req.body)
+        .then(() => res.redirect('/products'))
+        .catch(() => res.status(500).end());
 });
 
 router.get('/details/:productId', (req, res) => {
-    let product = productsService.getById(req.params.productId);
+    let product = productService.getById(req.params.productId);
 
-    res.render('details', {title: 'Details', product});
+    res.render('details', { title: 'Details', product });
 });
 
 module.exports = router;
