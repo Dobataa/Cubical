@@ -18,4 +18,4 @@ const accessorySchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.Model('Accessory', accessorySchema)
+module.exports = mongoose.model('Accessory', accessorySchema)
