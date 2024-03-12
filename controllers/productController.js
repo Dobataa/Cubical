@@ -23,14 +23,14 @@ router.post('/create', (req, res) => {
 });
 
 router.get('/details/:productId', async (req, res) => {
-    let product = await productService.getById(req.params.productId);
+    let product = await productService.getByIdWithAccessories(req.params.productId);
 
     res.render('details', { title: 'Details', product });
 });
 
 router.get('/:productId/attach', async (req, res) => {
     let product = await productService.getById(req.params.productId);
-    let accessories = await accessoryService.getAll();
+    let accessories = await accessoryService.getAllWithout(product.accessories);
 
     res.render('attachAccessory', {product, accessories});
 });

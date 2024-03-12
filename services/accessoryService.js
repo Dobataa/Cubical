@@ -4,6 +4,10 @@ function getAll(){
     return Accessory.find().lean();
 }
 
+function getAllWithout(ids){
+    return Accessory.find({_id: {$nin: ids}}).lean();
+}
+
 function create(data){
     //should validata incoming data!!!
 
@@ -14,5 +18,6 @@ function create(data){
 
 module.exports = {
     getAll,
-    create
+    create,
+    getAllWithout
 }
