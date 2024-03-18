@@ -7,9 +7,10 @@
 
       <label for="password">Password</label>
       <input type="password" id="password" name="password">
-      {{#each errors}}
-      <span class="error">{{msg}}</span>
-      {{/each}}
+      
+      {{#if error}}
+      <span class="error">{{error.message}}</span>
+      {{/if}}
       <label for="repeatPassword">Re-Password</label>
       <input type="password" id="repeatPassword" name="repeatPassword">
       <label for="email">Email</label>
