@@ -13,8 +13,8 @@ router.post('/login', async (req, res) => {
     try {
         let token = await authService.login({ username, password });
 
-        console.log(token);
-        res.end();
+        res.cookie('USER_SESSION', token);
+        res.redirect('/products');
     } catch (error) {
         res.render('login', { error });
     }
@@ -43,7 +43,7 @@ router.post('/register', async (req, res) => {
     try {
         await authService.register({ username, password, email });
 
-        res.redirect('/login');
+        res.redirect('/auth/login');
     } catch (error) {
         res.render('register', { error });
     }

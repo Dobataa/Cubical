@@ -1,10 +1,11 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const { SALT_ROUNDS } = require('../config/config');
+const jwt = require('jsonwebtoken');
+const { SALT_ROUNDS, SECRET } = require('../config/config');
 
 const register = async ({ username, password, email }) => {
 
-    let isFound = await User.find({ username }).lean(); 
+    let isFound = await User.findOne({ username }).lean(); 
     
     if(isFound){
         throw { message: 'Username is taken!'};
@@ -31,6 +32,10 @@ const login = async ({ username, password }) => {
     if (!isMatch){
         throw { message: 'Invalid password'};
     }
+
+    let token = jwt.sign({ _id: user._id}, SECRET);
+
+    return token;
 
 }
 
