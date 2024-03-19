@@ -19,6 +19,22 @@ const register = async ({ username, password, email }) => {
 
 }
 
+const login = async ({ username, password }) => {
+    let user = await User.findOne({ username }).lean();
+
+    if(!user){
+        throw { message: 'Invalid username or password! '};
+    }
+
+    let isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch){
+        throw { message: 'Invalid password'};
+    }
+
+}
+
 module.exports = {
     register,
+    login
 }
