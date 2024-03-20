@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router, response } = require('express');
 const productService = require('../services/productService');
 const accessoryService = require('../services/accessoryService');
 const isAuthenticated = require('../middlewares/isAuthenticated');
@@ -43,10 +43,17 @@ router.post('/:productId/attach', isAuthenticated, (req, res) => {
     
 });
 
-router.get('/:productId/adit', isAuthenticated, (req, res) => {
+router.get('/:productId/edit', isAuthenticated, (req, res) => {
     productService.getById(req.params.productId)
         .then(product => {
             res.render('editCube', product);
+        });
+});
+
+router.post('/:productId/edit', isAuthenticated, (req, res) => {
+    productService.updateById(req.params.productId, req.body)
+        .then(response => {
+            res.redirect(`/products/details/${req.params.productId}`)
         });
 });
 
