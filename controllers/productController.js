@@ -43,4 +43,11 @@ router.post('/:productId/attach', isAuthenticated, (req, res) => {
     
 });
 
+router.get('/:productId/adit', isAuthenticated, (req, res) => {
+    productService.getById(req.params.productId)
+        .then(product => {
+            res.render('editCube', product);
+        });
+});
+
 module.exports = router;
