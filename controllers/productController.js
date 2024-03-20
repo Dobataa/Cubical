@@ -33,14 +33,14 @@ router.get('/:productId/attach', isAuthenticated, async (req, res) => {
     let product = await productService.getById(req.params.productId);
     let accessories = await accessoryService.getAllWithout(product.accessories);
 
-    res.render('attachAccessory', {product, accessories});
+    res.render('attachAccessory', { product, accessories });
 });
 
 router.post('/:productId/attach', isAuthenticated, (req, res) => {
     productService.attachAccessory(req.params.productId, req.body.accessory)
         .then(() => res.redirect(`/products/details/${req.params.productId}`))
         .catch(() => res.status(500).end());
-    
+
 });
 
 router.get('/:productId/edit', isAuthenticated, (req, res) => {
@@ -55,6 +55,31 @@ router.post('/:productId/edit', isAuthenticated, (req, res) => {
         .then(response => {
             res.redirect(`/products/details/${req.params.productId}`)
         });
+});
+
+router.get('/:productId/delete', isAuthenticated, (req, res) => {
+    productService.getById(req.params.productId)
+        .then(product => {
+            if (req.user._id != product.creator) {
+                res.redirect('/products');
+            } else {
+                res.render('deleteCube', product);
+            }
+        });
+});
+
+router.post('/:productId/delete', isAuthenticated, (req, res) => {
+    productService.getById(req.params.productId)
+        .then(product => {
+            if(product._id != req.user._id){
+                return res.redirect('/products');
+            }
+
+            return productService.deleteById(req.params.productId)
+        })
+            .then(response => {
+            res.redirect('/products');
+        })
 });
 
 module.exports = router;
